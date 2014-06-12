@@ -140,6 +140,11 @@ Ext.define('Ext.ux.grid.plugin.DragSelector', {
             return false;
         }
         
+        if(e.getPageY() > this.view.el.getY() + this.view.el.dom.clientHeight - 20)
+        {
+            return false;
+        }
+
         // call cancelClick
         this.cancelClick(e);
         return !this.dragSafe || e.target == this.view.el.dom || Ext.DomQuery.is(e.target, this.targetDragSelector);
@@ -233,7 +238,10 @@ Ext.define('Ext.ux.grid.plugin.DragSelector', {
                 sel = dragRegion.intersect(r),
                 selected = selModel.isSelected(i),
                 selectedBefore = me.objectsSelected[i];
-            
+
+            if (!bodyRegion.intersect(r))
+              continue;
+
             if(me.ctrlState)
             {
                 if(selectedBefore)
